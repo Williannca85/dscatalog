@@ -10,7 +10,6 @@ import java.util.Objects;
 
 @Entity
 @Data
-
 @AllArgsConstructor
 @Table(name = "tb_category")
 public class Category implements Serializable {
