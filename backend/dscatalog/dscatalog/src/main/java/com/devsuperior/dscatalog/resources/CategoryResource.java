@@ -1,6 +1,6 @@
 package com.devsuperior.dscatalog.resources;
 
-import com.devsuperior.dscatalog.entity.Category;
+import com.devsuperior.dscatalog.dto.CategoryDTO;
 import com.devsuperior.dscatalog.services.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -21,17 +21,20 @@ public class CategoryResource {
     private CategoryService service;
 
     @GetMapping()
-    public ResponseEntity<List<Category>> findAll() {
+    //public ResponseEntity<List<Category>> findAll() {
+    public ResponseEntity<List<CategoryDTO>> findAll() {
+
+        List<CategoryDTO> list = service.findAll();
+
+    /*  List<Category> list = new ArrayList<>();
+        list.add(new Category(1L,"Books"));
+        list.add(new Category(2L,"Electronics"));*/
+        return ResponseEntity.ok().body(list);
         /**
          * ResponseEntity Ele vai encapsular uma resposta HTTP, o tipo do dado
          * vai ficar dentro do <>
          *  findAll = todas as categorias
+         *  Corrigido para DTO
          */
-        List<Category> list = service.findAll();
-
-    /*    List<Category> list = new ArrayList<>();
-        list.add(new Category(1L,"Books"));
-        list.add(new Category(2L,"Electronics"));*/
-        return ResponseEntity.ok().body(list);
     }
 }
