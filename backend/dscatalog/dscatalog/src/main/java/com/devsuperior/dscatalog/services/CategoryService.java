@@ -3,6 +3,7 @@ package com.devsuperior.dscatalog.services;
 import com.devsuperior.dscatalog.dto.CategoryDTO;
 import com.devsuperior.dscatalog.entity.Category;
 import com.devsuperior.dscatalog.repository.CategoryRepository;
+import com.devsuperior.dscatalog.services.exceptions.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,7 +31,8 @@ public class CategoryService {
     @Transactional
     public CategoryDTO findById(Long id) {
         Optional<Category> obj = repository.findById(id);
-        Category entity = obj.get();
+        Category entity = obj.orElseThrow(() -> new EntityNotFoundException("Entidade não encontrada"));
+
         return new CategoryDTO(entity);
     }
 }
@@ -50,4 +52,7 @@ public class CategoryService {
  * map vai transformar cada elemento original em uma outra coisa. ELa aplica uma função a cada elemento
  * da sua lista. Eu irei transformar lista do tipo category para uma nova lista categoryDto
  *
+ */
+/**
+ * o orElseThrow vai lançar uma excecão se o resultado não for o esperado
  */
