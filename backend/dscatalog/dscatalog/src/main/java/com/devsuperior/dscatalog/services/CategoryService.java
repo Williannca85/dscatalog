@@ -35,6 +35,14 @@ public class CategoryService {
 
         return new CategoryDTO(entity);
     }
+    @Transactional
+    public CategoryDTO insert(CategoryDTO dto) {
+        Category entity = new Category();
+        entity.setName(dto.getName());
+        entity = repository.save(entity);
+
+        return new CategoryDTO(entity);
+    }
 }
 
 /**
@@ -55,4 +63,11 @@ public class CategoryService {
  */
 /**
  * o orElseThrow vai lançar uma excecão se o resultado não for o esperado
+ */
+
+/**
+ * Teremos que converter para um objeto do tipo Category para fazer o metodo insert
+ * não vai ser feito o entity.setId poís o id é nulo e vai ser o banco de dados que vai atribuir
+ * o id autoincremental
+ * @return new CategoryDTO como argumento o entity;
  */
