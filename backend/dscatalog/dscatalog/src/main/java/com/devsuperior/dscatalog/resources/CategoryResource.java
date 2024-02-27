@@ -75,4 +75,17 @@ public class CategoryResource {
         return ResponseEntity.created(uri).body(dto);
 
     }
+
+    /**
+     * Metodo atualizar, ele faz uma mescla do Get (vamos usar o id) com o
+     * Post (o corpo da reqisição RequestBody)
+     * O metodo HTTP usado vai ser o PUT, ele vai ter a variavel na url e o corpo da requisição
+     * @param dto
+     * @return ResponseEntity.ok() tendo o body o argumento dto
+     */
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<CategoryDTO> update(@PathVariable Long id, @RequestBody CategoryDTO dto) {
+       dto = service.update(id, dto);
+       return ResponseEntity.ok().body(dto);
+    }
 }

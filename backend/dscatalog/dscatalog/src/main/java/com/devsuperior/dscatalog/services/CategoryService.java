@@ -3,7 +3,9 @@ package com.devsuperior.dscatalog.services;
 import com.devsuperior.dscatalog.dto.CategoryDTO;
 import com.devsuperior.dscatalog.entity.Category;
 import com.devsuperior.dscatalog.repository.CategoryRepository;
-import com.devsuperior.dscatalog.services.exceptions.EntityNotFoundException;
+
+import com.devsuperior.dscatalog.services.exceptions.ResourceNotFoundException;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,6 +45,17 @@ public class CategoryService {
 
         return new CategoryDTO(entity);
     }
+    @Transactional
+    public CategoryDTO update(Long id, CategoryDTO dto) throws EntityNotFoundException{
+        try {
+        Category entity = repository.getOne(id);
+        entity.setName(dto.getName());
+        entity = repository.save(entity);
+        return new CategoryDTO(entity);
+        } catch (EntityNotFoundException e) {
+            throw new ResourceNotFoundException("Id não encontrado" + id);
+        }
+    }
 }
 
 /**
@@ -70,4 +83,15 @@ public class CategoryService {
  * não vai ser feito o entity.setId poís o id é nulo e vai ser o banco de dados que vai atribuir
  * o id autoincremental
  * @return new CategoryDTO como argumento o entity;
+ */
+
+/**
+ * update category
+ * Teremos que instanciar o objeto do tipo Category nesse novo serviço
+ * Diferença entre findById par o GetOne
+ * findById efetiva o acesso ao banco de dados
+ * GetOne não "toca" no banco de dados, ele vai instanciar um objeto provisorio
+ * o id no objeto. Quando for encaminhado para salvar que ele vai para o bd
+ * Teremos que criar um try/catch pois se for enviado um id errado, ele vai
+ * gerar uma exceção
  */
